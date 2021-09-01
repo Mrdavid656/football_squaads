@@ -1,11 +1,11 @@
 <ion-list>
   <ion-item *ngFor="let equipo of equipos">
     <ion-avatar slot="start">
-      <img [src]="equipo['Logo del Equipo']">
+      <img [src]="equipo.logo">
     </ion-avatar>
     <ion-label>
-      <h2>{{equipo["Nombre del equipo"]}}</h2>
-      <p>Liga: {{equipo.liga["Nombre De La Liga"]}}</p>
+      <h2>{{equipo.nombre}}</h2>
+      <p>Liga: {{equipo.liga.nombre}}</p>
     </ion-label>
   </ion-item>
 </ion-list>

@@ -32,6 +32,6 @@ export class LigaPage implements OnInit {
   async filterList(evt) {
     const q = evt.value;
     this.ligas = this.ligasAuxData;
-    this.ligas = this.ligas.filter( (liga) => liga['Nombre De La Liga'].indexOf(q) > -1);
+    this.ligas = this.ligas.filter( (liga) => liga.nombre.indexOf(q) > -1);
   }
 }

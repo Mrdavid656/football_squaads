@@ -43,7 +43,7 @@ export class EquipoPage implements OnInit {
   async obtenerEquipos(){
     this.equiposService.get().subscribe(res => {
       res.forEach( equipo => {
-        equipo.liga = this.obtenerLigaEspecifica(equipo.Liga);
+        equipo.liga = this.obtenerLigaEspecifica(equipo.ligaId);
       });
       this.equipos = res;
       this.equiposAuxData = this.equipos;
@@ -57,7 +57,7 @@ export class EquipoPage implements OnInit {
     this.url = '?_page=' + this.page_number + '&_limit=10';
     this.equiposService.getPagination(this.url).subscribe(res => {
       res.forEach( equipo => {
-        equipo.liga = this.obtenerLigaEspecifica(equipo.Liga);
+        equipo.liga = this.obtenerLigaEspecifica(equipo.ligaId);
         this.itemListData.push(equipo);
       });
 
@@ -81,15 +81,14 @@ export class EquipoPage implements OnInit {
   }
 
   obtenerLigaEspecifica(liga_id): Liga{
-    const liga = this.ligas.filter((obj) => obj.Identificador.indexOf(liga_id) > -1)[0];
-    return liga;
+    return this.ligas.find( obj => obj.id === liga_id);
   }
 
   async filterList() {
     const q = this.search;
     this.equipos = this.equiposAuxData;
     this.equipos = this.equipos.filter( (equipo) => {
-      return equipo['Nombre del equipo'].indexOf(q) > -1 || equipo.liga['Nombre De La Liga'].indexOf(q) > -1;
+      return equipo.nombre.indexOf(q) > -1 || equipo.liga.nombre.indexOf(q) > -1;
     });
   }
 
