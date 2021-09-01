@@ -20,6 +20,11 @@
     </ion-toolbar>
   </ion-header>
   <app-lista [data]="equipos" *ngIf="search !== ''; else noSearch"></app-lista>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="agregarEquipo()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
 
 <ng-template #noSearch>

@@ -1,20 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ListaComponent} from './components/lista/lista.component';
-import {IonicModule} from "@ionic/angular";
+import {IonicModule} from '@ionic/angular';
+import {FormularioComponent} from './components/formulario/formulario.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 
 
 @NgModule({
   declarations: [
-    ListaComponent
+    ListaComponent,
+    FormularioComponent
   ],
   exports: [
-    ListaComponent
+    ListaComponent,
+    FormularioComponent
   ],
   imports: [
     CommonModule,
-    IonicModule
+    IonicModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class EquiposModule { }
