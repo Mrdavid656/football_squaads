@@ -5,9 +5,9 @@
 export const environment = {
   production: false,
   api: {
-    base: 'https://footbal-api.herokuapp.com/',
-    leagues: 'https://footbal-api.herokuapp.com/leagues/',
-    teams: 'https://footbal-api.herokuapp.com/teams',
+    base: 'http://localhost:3000/',
+    leagues: 'http://localhost:3000/leagues',
+    teams: 'http://localhost:3000/teams',
   }
 };
 
