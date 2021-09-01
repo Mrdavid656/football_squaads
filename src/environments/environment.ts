@@ -8,6 +8,7 @@ export const environment = {
     base: 'http://localhost:3000/',
     leagues: 'http://localhost:3000/leagues',
     teams: 'http://localhost:3000/teams',
+    players: 'http://localhost:3000/players',
   }
 };
 
