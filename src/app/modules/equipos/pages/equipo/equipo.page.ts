@@ -80,10 +80,7 @@ export class EquipoPage implements OnInit {
     this.obtenerEquiposPag(true, event);
   }
 
-  async obtenerLigaEspecifica(liga_id){
-    if(this.ligas == null){
-      return;
-    }
+  obtenerLigaEspecifica(liga_id): Liga{
     const liga = this.ligas.filter((obj) => obj.Identificador.indexOf(liga_id) > -1)[0];
     return liga;
   }
