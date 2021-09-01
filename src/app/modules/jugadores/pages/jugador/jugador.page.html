@@ -4,6 +4,13 @@
       Jugadores
     </ion-title>
   </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      [(ngModel)]="search"
+      [animated]="true"
+      (ionInput)="filterList()"
+    ></ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
@@ -12,6 +19,13 @@
       <ion-title size="large">Jugadores</ion-title>
     </ion-toolbar>
   </ion-header>
-
-  <p> dota u.u </p>
+  <app-lista [data]="jugadores" *ngIf="search !== ''; else noSearch"></app-lista>
 </ion-content>
+
+<ng-template #noSearch>
+  <app-lista [data]="itemListData"></app-lista>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Obteniendo más equipos...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ng-template>

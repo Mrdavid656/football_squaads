@@ -1,0 +1,11 @@
+<ion-list>
+  <ion-item *ngFor="let jugador of jugadores">
+    <ion-avatar slot="start">
+      <img [src]="jugador.logo">
+    </ion-avatar>
+    <ion-label>
+      <h2>{{jugador.nombre}}</h2>
+      <p>Equipo: {{jugador.equipo.nombre}}</p>
+    </ion-label>
+  </ion-item>
+</ion-list>
