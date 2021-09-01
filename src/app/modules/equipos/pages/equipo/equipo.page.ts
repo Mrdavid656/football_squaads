@@ -3,6 +3,8 @@ import { LigasService } from 'src/app/core/services/ligas.service';
 import {EquiposService} from '../../../../core/services/equipos.service';
 import {Equipo} from '../../../../shared/model/Equipo';
 import {Liga} from '../../../../shared/model/Liga';
+import {ModalController} from '@ionic/angular';
+import {FormularioComponent} from '../../components/formulario/formulario.component';
 
 @Component({
   selector: 'app-equipo',
@@ -11,8 +13,8 @@ import {Liga} from '../../../../shared/model/Liga';
 })
 export class EquipoPage implements OnInit {
 
-  url: string;
-  itemListData = [];
+  params: string;
+  itemListData: Equipo[] = [];
   page_number = 1;
 
   search = '';
@@ -23,13 +25,12 @@ export class EquipoPage implements OnInit {
 
   constructor(
     private equiposService: EquiposService,
-    private ligasService: LigasService
+    private ligasService: LigasService,
+    private modalController: ModalController,
   ) { }
 
   async ngOnInit() {
-    await this.obtenerLigas();
-    await this.obtenerEquiposPag(false, '');
-    await this.obtenerEquipos();
+    await this.cargarDatosIniciales();
   }
 
   async obtenerLigas(){
@@ -40,6 +41,12 @@ export class EquipoPage implements OnInit {
     });
   }
 
+  async cargarDatosIniciales(){
+    await this.obtenerLigas();
+    await this.obtenerEquiposPag(false, '');
+    await this.obtenerEquipos();
+  }
+
   async obtenerEquipos(){
     this.equiposService.get().subscribe(res => {
       res.forEach( equipo => {
@@ -48,14 +55,35 @@ export class EquipoPage implements OnInit {
       this.equipos = res;
       this.equiposAuxData = this.equipos;
     }, error => {
-      console.log('Ocurrio un error al obtener los equipos: ');
+      console.log('Ocurrio un error al obtener la lista de equipos: ');
       console.log(error);
     });
   }
 
+  async agregarEquipo(){
+    const modal = await this.modalController.create({
+      component: FormularioComponent,
+    });
+    modal.onDidDismiss().then(res => {
+      if(res.data.data){
+         const equipo: Equipo = res.data.data;
+         equipo.liga = this.obtenerLigaEspecifica(equipo.ligaId);
+         this.actualizarListasEquipos(equipo);
+      }
+    });
+    return await modal.present();
+  }
+
+  actualizarListasEquipos(equipo: Equipo): void{
+    this.equipos.push(equipo);
+    this.itemListData.push(equipo);
+    this.equiposAuxData.push(equipo);
+  }
+
   async obtenerEquiposPag(isFirstLoad, event){
-    this.url = '?_page=' + this.page_number + '&_limit=10';
-    this.equiposService.getPagination(this.url).subscribe(res => {
+    this.params = '?_page=' + this.page_number + '&_limit=10';
+    this.equiposService.getPagination(this.params).subscribe(res => {
+      console.log(res);
       res.forEach( equipo => {
         equipo.liga = this.obtenerLigaEspecifica(equipo.ligaId);
         this.itemListData.push(equipo);
@@ -71,7 +99,7 @@ export class EquipoPage implements OnInit {
 
       this.page_number++;
     }, error => {
-      console.log('Ocurrio un error al obtener los equipos: ');
+      console.log('Ocurrio un error al obtener los equipos paginados: ');
       console.log(error);
     });
   }

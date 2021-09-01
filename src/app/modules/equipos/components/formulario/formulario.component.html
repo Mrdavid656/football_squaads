@@ -1,0 +1,46 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cerrarModal()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Formulario Equipos</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen="true">
+  <form #formDirective="ngForm" [formGroup]="equipoForm" class="ion-padding" (ngSubmit)="submitForm()">
+    <ion-item class="ion-margin-bottom" *ngIf="equipoForm.get('logo').value !== ''">
+      <ion-img [src]="equipoForm.get('logo').value" class="ion-margin-auto"></ion-img>
+    </ion-item>
+
+    <ion-item class="ion-margin-top">
+      <ion-label position="floating">Nombre del equipo</ion-label>
+      <ion-input formControlName="nombre"></ion-input>
+    </ion-item>
+    <span *ngIf="isSubmitted && equipoForm.get('nombre').errors?.required" class="input-error ion-margin-bottom">
+          Es necesario que escoja un nombre..
+    </span>
+
+    <ion-item class="ion-margin-top">
+      <ion-label>Liga</ion-label>
+      <ion-select formControlName="liga">
+        <ion-select-option *ngFor="let liga of ligas" [value]="liga.id">{{liga.nombre}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <span *ngIf="isSubmitted && equipoForm.get('liga').errors?.required" class="input-error ion-margin-bottom">
+          Es necesario que escoja una liga..
+    </span>
+
+    <ion-item class="ion-margin-top">
+      <ion-label position="floating">Imagen</ion-label>
+      <ion-input formControlName="logo"></ion-input>
+    </ion-item>
+
+    <ion-row class="ion-margin-top">
+      <ion-col>
+        <ion-button type="submit" color="primary" expand="block">Guardar datos</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

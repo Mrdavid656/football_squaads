@@ -21,4 +21,8 @@ export class EquiposService {
     return this.http.get<Array<Equipo>>(`${environment.api.teams}${params}`);
   }
 
+  post(equipo){
+    return this.http.post(environment.api.teams, equipo);
+  }
+
 }
