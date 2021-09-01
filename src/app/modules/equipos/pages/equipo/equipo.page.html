@@ -1,0 +1,31 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Equipos
+    </ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      [(ngModel)]="search"
+      [animated]="true"
+      (ionInput)="filterList()"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Equipos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <app-lista [data]="equipos" *ngIf="search !== ''; else noSearch"></app-lista>
+</ion-content>
+
+<ng-template #noSearch>
+  <app-lista [data]="itemListData"></app-lista>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Obteniendo más equipos...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ng-template>

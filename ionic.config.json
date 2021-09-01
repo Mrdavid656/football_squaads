@@ -1,0 +1,7 @@
+{
+  "name": "football_sq",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

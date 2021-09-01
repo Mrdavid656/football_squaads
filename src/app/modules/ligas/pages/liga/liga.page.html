@@ -1,0 +1,23 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Liga
+    </ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      [animated]="true"
+      (ionInput)="filterList($event.srcElement)"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Liga</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <app-lista [data]="ligas"></app-lista>
+</ion-content>

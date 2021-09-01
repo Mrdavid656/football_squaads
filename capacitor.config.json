@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "football_sq",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}
