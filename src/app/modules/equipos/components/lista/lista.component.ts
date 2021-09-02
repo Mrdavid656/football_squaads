@@ -46,7 +46,6 @@ export class ListaComponent implements OnInit {
           cssClass: 'button-cancel',
           handler: () => {
             this.equiposService.eliminar(equipo.id).subscribe(res => {
-              console.log(res);
               this.presentToast('Se eliminó correctamente el equipo');
               const data = {
                 type: OPERATIONS.DELETE,
