@@ -1,11 +1,22 @@
 <ion-list>
-  <ion-item *ngFor="let jugador of jugadores">
-    <ion-avatar slot="start">
-      <img [src]="jugador.logo">
-    </ion-avatar>
-    <ion-label>
-      <h2>{{jugador.nombre}}</h2>
-      <p>Equipo: {{jugador.equipo.nombre}}</p>
-    </ion-label>
-  </ion-item>
+  <ion-item-sliding *ngFor="let jugador of jugadores" >
+    <ion-item-options side="start" (ionSwipe)="eliminarJugador(jugador)">
+      <ion-item-option color="tertiary" (click)="editarJugador()">
+        <ion-icon name="create-outline"></ion-icon>
+      </ion-item-option>
+      <ion-item-option color="danger" (click)="eliminarJugador(jugador)" expandable>
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-item-option>
+    </ion-item-options>
+
+    <ion-item >
+      <ion-avatar slot="start">
+        <img [src]="jugador.logo" alt="logo del jugador">
+      </ion-avatar>
+      <ion-label>
+        <h2>{{jugador.nombre}}</h2>
+        <p>Equipo: {{jugador.equipo.nombre}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-item-sliding>
 </ion-list>

@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Jugador } from 'src/app/shared/model/Jugador';
-import {EquiposService} from "../../../../core/services/equipos.service";
-import {Equipo} from "../../../../shared/model/Equipo";
-import {JugadoresService} from "../../../../core/services/jugadores.service";
-import {Liga} from "../../../../shared/model/Liga";
+import {EquiposService} from '../../../../core/services/equipos.service';
+import {Equipo} from '../../../../shared/model/Equipo';
+import {JugadoresService} from '../../../../core/services/jugadores.service';
+import {ModalController} from '@ionic/angular';
+import {FormularioComponent} from '../../components/formulario/formulario.component';
+import {SharedService} from '../../../../core/services/shared.service';
+import {Subscription} from 'rxjs';
+import {OPERATIONS} from '../../../../core/enum';
 
 @Component({
   selector: 'app-jugador',
@@ -23,10 +27,24 @@ export class JugadorPage implements OnInit {
 
   equipos: Equipo[];
 
+  clickEventsubscription: Subscription;
+
   constructor(
     private equiposService: EquiposService,
     private jugadoresService: JugadoresService,
-  ) { }
+    private modalController: ModalController,
+    private sharedService: SharedService,
+  ) {
+    this.clickEventsubscription = this.sharedService.getclickEventJugador().subscribe((res: any) => {
+      switch (res.type) {
+        case OPERATIONS.DELETE:
+          this.quitarJugadores(res.data);
+          break;
+        case OPERATIONS.UPDATE:
+          break;
+      }
+    });
+  }
 
   async ngOnInit() {
     await this.obtenerEquipos();
@@ -40,6 +58,13 @@ export class JugadorPage implements OnInit {
     }, error => {
       console.log('Ocurrio un error al obtener las ligas: ' +  error);
     });
+  }
+
+  quitarJugadores(jugador: Jugador){
+    const index = this.jugadores.indexOf(jugador);
+    this.jugadores.splice(index, 1);
+    this.itemListData.splice(index, 1);
+    this.jugadoresAuxData = this.jugadores;
   }
 
   async obtenerJugadores(){
@@ -89,10 +114,27 @@ export class JugadorPage implements OnInit {
   async filterList() {
     const q = this.search;
     this.jugadores = this.jugadoresAuxData;
-    this.jugadores = this.jugadores.filter( (jugador) => {
-      return jugador.nombre.indexOf(q) > -1 || jugador.equipo.nombre.indexOf(q) > -1;
-    });
+    this.jugadores = this.jugadores.filter( (jugador) => jugador.nombre.indexOf(q) > -1 || jugador.equipo.nombre.indexOf(q) > -1);
   }
 
+  async agregarJugador(){
+    const modal = await this.modalController.create({
+      component: FormularioComponent,
+    });
+    modal.onDidDismiss().then(res => {
+      if(res.data.data){
+        const jugador: Jugador = res.data.data;
+        jugador.equipo = this.obtenerEquipoEspecifico(jugador.equipoId);
+        this.agregarNuevoJugador(jugador);
+      }
+    });
+    return await modal.present();
+  }
+
+  agregarNuevoJugador(jugador: Jugador): void{
+    this.jugadores.push(jugador);
+    this.itemListData.push(jugador);
+    this.jugadoresAuxData = this.jugadores;
+  }
 
 }

@@ -8,7 +8,7 @@
     <ion-searchbar
       [(ngModel)]="search"
       [animated]="true"
-      (ionInput)="filterList()"
+      (ionChange)="filterList()"
     ></ion-searchbar>
   </ion-toolbar>
 </ion-header>
@@ -20,6 +20,11 @@
     </ion-toolbar>
   </ion-header>
   <app-lista [data]="jugadores" *ngIf="search !== ''; else noSearch"></app-lista>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="agregarJugador()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
 
 <ng-template #noSearch>

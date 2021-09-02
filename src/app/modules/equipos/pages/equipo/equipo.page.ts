@@ -77,7 +77,7 @@ export class EquipoPage implements OnInit {
   actualizarListasEquipos(equipo: Equipo): void{
     this.equipos.push(equipo);
     this.itemListData.push(equipo);
-    this.equiposAuxData.push(equipo);
+    this.equiposAuxData = this.equipos;
   }
 
   async obtenerEquiposPag(isFirstLoad, event){
