@@ -6,9 +6,9 @@ export const environment = {
   production: false,
   api: {
     base: 'http://localhost:3000/',
-    leagues: 'http://localhost:3000/leagues',
-    teams: 'http://localhost:3000/teams',
-    players: 'http://localhost:3000/players',
+    leagues: 'http://localhost:3000/ligas',
+    teams: 'http://localhost:3000/equipos',
+    players: 'http://localhost:3000/jugadores',
   }
 };
 

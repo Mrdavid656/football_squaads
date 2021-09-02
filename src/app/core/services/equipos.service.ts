@@ -17,12 +17,15 @@ export class EquiposService {
   }
 
   getPagination(params: string){
-    console.log(params);
     return this.http.get<Array<Equipo>>(`${environment.api.teams}${params}`);
   }
 
   post(equipo){
     return this.http.post(environment.api.teams, equipo);
+  }
+
+  eliminar(id){
+    return this.http.delete(`${environment.api.teams}/${id}`);
   }
 
 }

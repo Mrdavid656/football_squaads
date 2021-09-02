@@ -65,7 +65,6 @@ export class FormularioComponent implements OnInit {
         logo: this.jugadorForm.get('logo').value,
         equipoId: this.jugadorForm.get('equipo').value,
       };
-      console.log(objJugador);
       this.jugadoresService.post(objJugador).subscribe(res => {
         this.presentToast('Se inserto correctamente el jugador');
         this.cerrarModal(res);

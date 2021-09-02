@@ -49,7 +49,7 @@ export class ListaComponent implements OnInit {
               this.presentToast('Se elimino correctamente el jugador');
               const data = {
                 type: OPERATIONS.DELETE,
-                data: res,
+                data: jugador,
               };
               this.sharedService.clickEventJugador(data);
             }, error => {
