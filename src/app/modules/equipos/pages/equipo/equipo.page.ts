@@ -5,9 +5,9 @@ import {Equipo} from '../../../../shared/model/Equipo';
 import {Liga} from '../../../../shared/model/Liga';
 import {ModalController} from '@ionic/angular';
 import {FormularioComponent} from '../../components/formulario/formulario.component';
-import {OPERATIONS} from "../../../../core/enum";
-import {Subscription} from "rxjs";
-import {SharedService} from "../../../../core/services/shared.service";
+import {OPERATIONS} from '../../../../core/enum';
+import {Subscription} from 'rxjs';
+import {SharedService} from '../../../../core/services/shared.service';
 
 @Component({
   selector: 'app-equipo',
@@ -110,7 +110,6 @@ export class EquipoPage implements OnInit {
   async obtenerEquiposPag(isFirstLoad, event){
     this.params = '?_page=' + this.page_number + '&_limit=10';
     this.equiposService.getPagination(this.params).subscribe(res => {
-      console.log(res);
       res.forEach( equipo => {
         equipo.liga = this.obtenerLigaEspecifica(equipo.ligaId);
         this.itemListData.push(equipo);

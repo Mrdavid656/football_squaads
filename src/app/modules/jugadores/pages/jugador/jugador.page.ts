@@ -47,7 +47,7 @@ export class JugadorPage implements OnInit {
   }
 
   async ngOnInit() {
-    this.cargarDatosIniciales();
+    await this.cargarDatosIniciales();
   }
 
   async cargarDatosIniciales(){
