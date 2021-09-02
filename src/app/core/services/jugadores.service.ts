@@ -24,4 +24,8 @@ export class JugadoresService {
   post(jugador){
     return this.http.post(environment.api.players, jugador);
   }
+
+  eliminar(id){
+    return this.http.delete(`${environment.api.players}/${id}`);
+  }
 }

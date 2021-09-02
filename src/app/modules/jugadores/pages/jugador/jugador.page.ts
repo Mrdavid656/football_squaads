@@ -5,6 +5,9 @@ import {Equipo} from '../../../../shared/model/Equipo';
 import {JugadoresService} from '../../../../core/services/jugadores.service';
 import {ModalController} from '@ionic/angular';
 import {FormularioComponent} from '../../components/formulario/formulario.component';
+import {SharedService} from '../../../../core/services/shared.service';
+import {Subscription} from 'rxjs';
+import {OPERATIONS} from '../../../../core/enum';
 
 @Component({
   selector: 'app-jugador',
@@ -24,11 +27,24 @@ export class JugadorPage implements OnInit {
 
   equipos: Equipo[];
 
+  clickEventsubscription: Subscription;
+
   constructor(
     private equiposService: EquiposService,
     private jugadoresService: JugadoresService,
     private modalController: ModalController,
-  ) { }
+    private sharedService: SharedService,
+  ) {
+    this.clickEventsubscription = this.sharedService.getclickEventJugador().subscribe((res: any) => {
+      switch (res.type) {
+        case OPERATIONS.DELETE:
+          this.quitarJugadores(res.data);
+          break;
+        case OPERATIONS.UPDATE:
+          break;
+      }
+    });
+  }
 
   async ngOnInit() {
     await this.obtenerEquipos();
@@ -42,6 +58,13 @@ export class JugadorPage implements OnInit {
     }, error => {
       console.log('Ocurrio un error al obtener las ligas: ' +  error);
     });
+  }
+
+  quitarJugadores(jugador: Jugador){
+    const index = this.jugadores.indexOf(jugador);
+    this.jugadores.splice(index, 1);
+    this.itemListData.splice(index, 1);
+    this.jugadoresAuxData = this.jugadores;
   }
 
   async obtenerJugadores(){
@@ -102,13 +125,13 @@ export class JugadorPage implements OnInit {
       if(res.data.data){
         const jugador: Jugador = res.data.data;
         jugador.equipo = this.obtenerEquipoEspecifico(jugador.equipoId);
-        this.actualizarListasJugadores(jugador);
+        this.agregarNuevoJugador(jugador);
       }
     });
     return await modal.present();
   }
 
-  actualizarListasJugadores(jugador: Jugador): void{
+  agregarNuevoJugador(jugador: Jugador): void{
     this.jugadores.push(jugador);
     this.itemListData.push(jugador);
     this.jugadoresAuxData = this.jugadores;

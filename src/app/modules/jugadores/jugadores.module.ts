@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import {ListaComponent} from './components/lista/lista.component';
 import {IonicModule} from '@ionic/angular';
 import {FormularioComponent} from './components/formulario/formulario.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({

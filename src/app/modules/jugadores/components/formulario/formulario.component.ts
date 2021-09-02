@@ -5,7 +5,7 @@ import {FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
 import {Liga} from '../../../../shared/model/Liga';
 import {LigasService} from '../../../../core/services/ligas.service';
 import {Equipo} from '../../../../shared/model/Equipo';
-import {JugadoresService} from "../../../../core/services/jugadores.service";
+import {JugadoresService} from '../../../../core/services/jugadores.service';
 
 @Component({
   selector: 'app-formulario',
@@ -25,7 +25,7 @@ export class FormularioComponent implements OnInit {
     private modalController: ModalController,
     private equiposService: EquiposService,
     private jugadoresService: JugadoresService,
-    public toastController: ToastController
+    private toastController: ToastController
   ) { }
 
   ngOnInit() {
@@ -56,7 +56,7 @@ export class FormularioComponent implements OnInit {
       message,
       duration: 2000
     });
-    toast.present();
+    await toast.present();
   }
 
   submitForm() {
