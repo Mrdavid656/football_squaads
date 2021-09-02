@@ -33,7 +33,6 @@ export class FormularioComponent implements OnInit {
 
   ngOnInit() {
     this.obtenerEquipos();
-    console.log(this.data);
     if (this.data){
       this.jugadorForm = new FormGroup({
         nombre: new FormControl(this.data.nombre, Validators.required),

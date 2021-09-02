@@ -1,9 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { Equipo } from 'src/app/shared/model/Equipo';
 import {OPERATIONS} from '../../../../core/enum';
-import {AlertController, ToastController} from '@ionic/angular';
+import {AlertController, ModalController, ToastController} from '@ionic/angular';
 import {SharedService} from '../../../../core/services/shared.service';
 import {EquiposService} from '../../../../core/services/equipos.service';
+import {FormularioComponent} from "../formulario/formulario.component";
 
 @Component({
   selector: 'app-lista',
@@ -18,13 +19,29 @@ export class ListaComponent implements OnInit {
     public alertController: AlertController,
     private equiposService: EquiposService,
     public toastController: ToastController,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private modalController: ModalController,
   ) { }
 
   ngOnInit() {}
 
-  editarEquipo(){
-    console.log('Editar Jugador');
+  async editarEquipo(equipo: Equipo){
+    const modal = await this.modalController.create({
+      component: FormularioComponent,
+      componentProps: {
+        data: equipo
+      }
+    });
+    modal.onDidDismiss().then(res => {
+      if(res.data.data){
+        const data = {
+          type: OPERATIONS.UPDATE,
+          data: res.data.data,
+        };
+        this.sharedService.clickEventEquipo(data);
+      }
+    });
+    return await modal.present();
   }
 
   eliminarEquipo(equipo){

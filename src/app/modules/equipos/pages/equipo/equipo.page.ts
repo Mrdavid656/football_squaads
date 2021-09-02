@@ -35,30 +35,13 @@ export class EquipoPage implements OnInit {
     private sharedService: SharedService,
   ) {
     this.clickEventsubscription = this.sharedService.getclickEventEquipo().subscribe((res: any) => {
-      switch (res.type) {
-        case OPERATIONS.DELETE:
-          this.quitarEquipo(res.data);
-          break;
-        case OPERATIONS.UPDATE:
-          break;
-      }
+      this.cargarDatosIniciales();
     });
   }
 
   async ngOnInit() {
     await this.cargarDatosIniciales();
   }
-
-  quitarEquipo(equipo: Equipo){
-    const data = this.equipos.find( obj => obj.id === equipo.id);
-    const index = this.equipos.indexOf(data);
-    if (index > -1){
-      this.equipos.splice(index, 1);
-      this.itemListData.splice(index, 1);
-      this.equiposAuxData = this.equipos;
-    }
-  }
-
 
   async obtenerLigas(){
     this.ligasService.get().subscribe(res => {
@@ -69,9 +52,11 @@ export class EquipoPage implements OnInit {
   }
 
   async cargarDatosIniciales(){
+    this.page_number = 1;
+    this.itemListData = [];
     await this.obtenerLigas();
-    await this.obtenerEquiposPag(false, '');
     await this.obtenerEquipos();
+    await this.obtenerEquiposPag(false, '');
   }
 
   async obtenerEquipos(){
@@ -85,26 +70,6 @@ export class EquipoPage implements OnInit {
       console.log('Ocurrio un error al obtener la lista de equipos: ');
       console.log(error);
     });
-  }
-
-  async agregarEquipo(){
-    const modal = await this.modalController.create({
-      component: FormularioComponent,
-    });
-    modal.onDidDismiss().then(res => {
-      if(res.data.data){
-         const equipo: Equipo = res.data.data;
-         equipo.liga = this.obtenerLigaEspecifica(equipo.ligaId);
-         this.actualizarListasEquipos(equipo);
-      }
-    });
-    return await modal.present();
-  }
-
-  actualizarListasEquipos(equipo: Equipo): void{
-    this.equipos.push(equipo);
-    this.itemListData.push(equipo);
-    this.equiposAuxData = this.equipos;
   }
 
   async obtenerEquiposPag(isFirstLoad, event){
@@ -130,12 +95,12 @@ export class EquipoPage implements OnInit {
     });
   }
 
-  doInfinite(event) {
-    this.obtenerEquiposPag(true, event);
-  }
-
   obtenerLigaEspecifica(liga_id): Liga{
     return this.ligas.find( obj => obj.id == liga_id);
+  }
+
+  doInfinite(event) {
+    this.obtenerEquiposPag(true, event);
   }
 
   async filterList() {
@@ -144,6 +109,18 @@ export class EquipoPage implements OnInit {
     this.equipos = this.equipos.filter( (equipo) => {
       return equipo.nombre.indexOf(q) > -1 || equipo.liga.nombre.indexOf(q) > -1;
     });
+  }
+
+  async agregarEquipo(){
+    const modal = await this.modalController.create({
+      component: FormularioComponent,
+    });
+    modal.onDidDismiss().then(res => {
+      if(res.data.data){
+        this.cargarDatosIniciales();
+      }
+    });
+    return await modal.present();
   }
 
 }

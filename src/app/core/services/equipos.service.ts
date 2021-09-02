@@ -24,6 +24,10 @@ export class EquiposService {
     return this.http.post(environment.api.teams, equipo);
   }
 
+  put(id, equipo){
+    return this.http.put(`${environment.api.teams}/${id}`, equipo);
+  }
+
   eliminar(id){
     return this.http.delete(`${environment.api.teams}/${id}`);
   }
