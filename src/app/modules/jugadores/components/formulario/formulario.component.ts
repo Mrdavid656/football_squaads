@@ -2,8 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ModalController, ToastController} from '@ionic/angular';
 import {EquiposService} from '../../../../core/services/equipos.service';
 import {FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
-import {Liga} from '../../../../shared/model/Liga';
-import {LigasService} from '../../../../core/services/ligas.service';
 import {Equipo} from '../../../../shared/model/Equipo';
 import {JugadoresService} from '../../../../core/services/jugadores.service';
 
