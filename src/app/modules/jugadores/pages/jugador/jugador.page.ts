@@ -47,9 +47,19 @@ export class JugadorPage implements OnInit {
   }
 
   async ngOnInit() {
+    this.cargarDatosIniciales();
+  }
+
+  async cargarDatosIniciales(){
+    this.page_number = 1;
+    this.itemListData = [];
     await this.obtenerEquipos();
-    await this.obtenerJugadorPag(false, '');
     await this.obtenerJugadores();
+    await this.obtenerJugadorPag(false, '');
+  }
+
+  async ionViewDidEnter() {
+    await this.cargarDatosIniciales();
   }
 
   async obtenerEquipos(){
@@ -61,10 +71,13 @@ export class JugadorPage implements OnInit {
   }
 
   quitarJugadores(jugador: Jugador){
-    const index = this.jugadores.indexOf(jugador);
-    this.jugadores.splice(index, 1);
-    this.itemListData.splice(index, 1);
-    this.jugadoresAuxData = this.jugadores;
+    const data = this.jugadores.find( obj => obj.id === jugador.id);
+    const index = this.jugadores.indexOf(data);
+    if(index > -1){
+      this.jugadores.splice(index, 1);
+      this.itemListData.splice(index, 1);
+      this.jugadoresAuxData = this.jugadores;
+    }
   }
 
   async obtenerJugadores(){
@@ -104,7 +117,7 @@ export class JugadorPage implements OnInit {
   }
 
   obtenerEquipoEspecifico(equipoId): Equipo{
-    return this.equipos.find( obj => obj.id === equipoId);
+    return this.equipos.find( obj => obj.id == equipoId);
   }
 
   doInfinite(event) {
