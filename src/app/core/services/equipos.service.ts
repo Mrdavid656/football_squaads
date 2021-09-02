@@ -16,6 +16,10 @@ export class EquiposService {
     return this.http.get<Array<Equipo>>(environment.api.teams);
   }
 
+  getByLigaId(ligaId){
+    return this.http.get<Array<Equipo>>(`${environment.api.teams}?ligaId=${ligaId}`);
+  }
+
   getPagination(params: string){
     return this.http.get<Array<Equipo>>(`${environment.api.teams}${params}`);
   }
