@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Jugador } from 'src/app/shared/model/Jugador';
-import {EquiposService} from "../../../../core/services/equipos.service";
-import {Equipo} from "../../../../shared/model/Equipo";
-import {JugadoresService} from "../../../../core/services/jugadores.service";
-import {Liga} from "../../../../shared/model/Liga";
+import {EquiposService} from '../../../../core/services/equipos.service';
+import {Equipo} from '../../../../shared/model/Equipo';
+import {JugadoresService} from '../../../../core/services/jugadores.service';
+import {ModalController} from '@ionic/angular';
+import {FormularioComponent} from '../../components/formulario/formulario.component';
 
 @Component({
   selector: 'app-jugador',
@@ -26,6 +27,7 @@ export class JugadorPage implements OnInit {
   constructor(
     private equiposService: EquiposService,
     private jugadoresService: JugadoresService,
+    private modalController: ModalController,
   ) { }
 
   async ngOnInit() {
@@ -89,10 +91,27 @@ export class JugadorPage implements OnInit {
   async filterList() {
     const q = this.search;
     this.jugadores = this.jugadoresAuxData;
-    this.jugadores = this.jugadores.filter( (jugador) => {
-      return jugador.nombre.indexOf(q) > -1 || jugador.equipo.nombre.indexOf(q) > -1;
-    });
+    this.jugadores = this.jugadores.filter( (jugador) => jugador.nombre.indexOf(q) > -1 || jugador.equipo.nombre.indexOf(q) > -1);
   }
 
+  async agregarJugador(){
+    const modal = await this.modalController.create({
+      component: FormularioComponent,
+    });
+    modal.onDidDismiss().then(res => {
+      if(res.data.data){
+        const jugador: Jugador = res.data.data;
+        jugador.equipo = this.obtenerEquipoEspecifico(jugador.equipoId);
+        this.actualizarListasJugadores(jugador);
+      }
+    });
+    return await modal.present();
+  }
+
+  actualizarListasJugadores(jugador: Jugador): void{
+    this.jugadores.push(jugador);
+    this.itemListData.push(jugador);
+    this.jugadoresAuxData = this.jugadores;
+  }
 
 }

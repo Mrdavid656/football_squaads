@@ -20,4 +20,8 @@ export class JugadoresService {
   getPagination(params: string){
     return this.http.get<Array<Jugador>>(`${environment.api.players}${params}`);
   }
+
+  post(jugador){
+    return this.http.post(environment.api.players, jugador);
+  }
 }
