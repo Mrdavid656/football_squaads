@@ -5,6 +5,9 @@ import {Equipo} from '../../../../shared/model/Equipo';
 import {Liga} from '../../../../shared/model/Liga';
 import {ModalController} from '@ionic/angular';
 import {FormularioComponent} from '../../components/formulario/formulario.component';
+import {OPERATIONS} from "../../../../core/enum";
+import {Subscription} from "rxjs";
+import {SharedService} from "../../../../core/services/shared.service";
 
 @Component({
   selector: 'app-equipo',
@@ -23,15 +26,39 @@ export class EquipoPage implements OnInit {
   equiposAuxData: Equipo[];
   ligas: Liga[];
 
+  clickEventsubscription: Subscription;
+
   constructor(
     private equiposService: EquiposService,
     private ligasService: LigasService,
     private modalController: ModalController,
-  ) { }
+    private sharedService: SharedService,
+  ) {
+    this.clickEventsubscription = this.sharedService.getclickEventEquipo().subscribe((res: any) => {
+      switch (res.type) {
+        case OPERATIONS.DELETE:
+          this.quitarEquipo(res.data);
+          break;
+        case OPERATIONS.UPDATE:
+          break;
+      }
+    });
+  }
 
   async ngOnInit() {
     await this.cargarDatosIniciales();
   }
+
+  quitarEquipo(equipo: Equipo){
+    const data = this.equipos.find( obj => obj.id === equipo.id);
+    const index = this.equipos.indexOf(data);
+    if (index > -1){
+      this.equipos.splice(index, 1);
+      this.itemListData.splice(index, 1);
+      this.equiposAuxData = this.equipos;
+    }
+  }
+
 
   async obtenerLigas(){
     this.ligasService.get().subscribe(res => {
@@ -109,7 +136,7 @@ export class EquipoPage implements OnInit {
   }
 
   obtenerLigaEspecifica(liga_id): Liga{
-    return this.ligas.find( obj => obj.id === liga_id);
+    return this.ligas.find( obj => obj.id == liga_id);
   }
 
   async filterList() {

@@ -25,4 +25,8 @@ export class EquiposService {
     return this.http.post(environment.api.teams, equipo);
   }
 
+  eliminar(id){
+    return this.http.delete(`${environment.api.teams}/${id}`);
+  }
+
 }
