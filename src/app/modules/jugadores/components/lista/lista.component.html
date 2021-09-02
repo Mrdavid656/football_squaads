@@ -1,7 +1,7 @@
 <ion-list>
   <ion-item-sliding *ngFor="let jugador of jugadores" >
     <ion-item-options side="start" (ionSwipe)="eliminarJugador(jugador)">
-      <ion-item-option color="tertiary" (click)="editarJugador()">
+      <ion-item-option color="tertiary" (click)="editarJugador(jugador)">
         <ion-icon name="create-outline"></ion-icon>
       </ion-item-option>
       <ion-item-option color="danger" (click)="eliminarJugador(jugador)" expandable>

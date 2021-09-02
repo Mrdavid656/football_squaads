@@ -24,8 +24,8 @@
 
     <ion-item class="ion-margin-top">
       <ion-label>Equipo</ion-label>
-      <ion-select formControlName="equipo">
-        <ion-select-option *ngFor="let equipo of equipos" [value]="equipo.id">{{equipo.nombre}}</ion-select-option>
+      <ion-select formControlName="equipo" [value]="equipoSeleccionado" [compareWith]="compareCategoryObjects">
+        <ion-select-option *ngFor="let equipo of equipos" [value]="equipo.id" >{{equipo.nombre}}</ion-select-option>
       </ion-select>
     </ion-item>
     <span *ngIf="isSubmitted && jugadorForm.get('equipo').errors?.required" class="input-error ion-margin-bottom">

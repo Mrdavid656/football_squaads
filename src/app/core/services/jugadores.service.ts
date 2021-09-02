@@ -25,6 +25,10 @@ export class JugadoresService {
     return this.http.post(environment.api.players, jugador);
   }
 
+  put(id, jugador){
+    return this.http.put(`${environment.api.players}/${id}`, jugador);
+  }
+
   eliminar(id){
     return this.http.delete(`${environment.api.players}/${id}`);
   }

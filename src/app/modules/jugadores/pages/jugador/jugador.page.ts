@@ -36,13 +36,7 @@ export class JugadorPage implements OnInit {
     private sharedService: SharedService,
   ) {
     this.clickEventsubscription = this.sharedService.getclickEventJugador().subscribe((res: any) => {
-      switch (res.type) {
-        case OPERATIONS.DELETE:
-          this.quitarJugadores(res.data);
-          break;
-        case OPERATIONS.UPDATE:
-          break;
-      }
+      this.cargarDatosIniciales();
     });
   }
 
@@ -70,16 +64,6 @@ export class JugadorPage implements OnInit {
     });
   }
 
-  quitarJugadores(jugador: Jugador){
-    const data = this.jugadores.find( obj => obj.id === jugador.id);
-    const index = this.jugadores.indexOf(data);
-    if(index > -1){
-      this.jugadores.splice(index, 1);
-      this.itemListData.splice(index, 1);
-      this.jugadoresAuxData = this.jugadores;
-    }
-  }
-
   async obtenerJugadores(){
     this.jugadoresService.get().subscribe(res => {
       res.forEach( jugador => {
@@ -101,7 +85,7 @@ export class JugadorPage implements OnInit {
         this.itemListData.push(jugador);
       });
 
-      if (res.length <= 0) {
+      if (res.length <= 0 && isFirstLoad == true) {
         event.target.disabled = true;
       }
 
@@ -136,18 +120,9 @@ export class JugadorPage implements OnInit {
     });
     modal.onDidDismiss().then(res => {
       if(res.data.data){
-        const jugador: Jugador = res.data.data;
-        jugador.equipo = this.obtenerEquipoEspecifico(jugador.equipoId);
-        this.agregarNuevoJugador(jugador);
+        this.cargarDatosIniciales();
       }
     });
     return await modal.present();
   }
-
-  agregarNuevoJugador(jugador: Jugador): void{
-    this.jugadores.push(jugador);
-    this.itemListData.push(jugador);
-    this.jugadoresAuxData = this.jugadores;
-  }
-
 }

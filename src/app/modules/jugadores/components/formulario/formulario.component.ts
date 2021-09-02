@@ -1,9 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ModalController, ToastController} from '@ionic/angular';
 import {EquiposService} from '../../../../core/services/equipos.service';
 import {FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
 import {Equipo} from '../../../../shared/model/Equipo';
 import {JugadoresService} from '../../../../core/services/jugadores.service';
+import {Jugador} from '../../../../shared/model/Jugador';
 
 @Component({
   selector: 'app-formulario',
@@ -12,12 +13,16 @@ import {JugadoresService} from '../../../../core/services/jugadores.service';
 })
 export class FormularioComponent implements OnInit {
 
+  @Input() data: Jugador;
+
   @ViewChild('formDirective') private formDirective: NgForm;
   jugadorForm: FormGroup;
 
   isSubmitted = false;
 
   equipos: Equipo[];
+
+  equipoSeleccionado;
 
   constructor(
     private modalController: ModalController,
@@ -28,11 +33,21 @@ export class FormularioComponent implements OnInit {
 
   ngOnInit() {
     this.obtenerEquipos();
-    this.jugadorForm = new FormGroup({
-      nombre: new FormControl('', Validators.required),
-      equipo: new FormControl('', Validators.required),
-      logo: new FormControl(''),
-    });
+    console.log(this.data);
+    if (this.data){
+      this.jugadorForm = new FormGroup({
+        nombre: new FormControl(this.data.nombre, Validators.required),
+        equipo: new FormControl(this.data.equipoId, Validators.required),
+        logo: new FormControl(this.data.logo),
+      });
+      this.equipoSeleccionado = this.data.equipoId;
+    }else{
+      this.jugadorForm = new FormGroup({
+        nombre: new FormControl('', Validators.required),
+        equipo: new FormControl('', Validators.required),
+        logo: new FormControl(''),
+      });
+    }
   }
 
   obtenerEquipos(){
@@ -65,15 +80,29 @@ export class FormularioComponent implements OnInit {
         logo: this.jugadorForm.get('logo').value,
         equipoId: this.jugadorForm.get('equipo').value,
       };
-      this.jugadoresService.post(objJugador).subscribe(res => {
-        this.presentToast('Se inserto correctamente el jugador');
-        this.cerrarModal(res);
-      }, error => {
-        this.presentToast('Ocurrio un error, intente nuevamente');
-        console.log(error);
-      });
+      if (this.data) {
+        this.jugadoresService.put(this.data.id, objJugador).subscribe(res => {
+          console.log(res);
+          this.presentToast('Se actualizo correctamente el jugador');
+          this.cerrarModal(res);
+        }, error => {
+          this.presentToast('Ocurrio un error, intente nuevamente');
+          console.log(error);
+        });
+      } else {
+        this.jugadoresService.post(objJugador).subscribe(res => {
+          this.presentToast('Se inserto correctamente el jugador');
+          this.cerrarModal(res);
+        }, error => {
+          this.presentToast('Ocurrio un error, intente nuevamente');
+          console.log(error);
+        });
+      }
     }
   }
 
+  compareCategoryObjects(c1: any, c2: any) {
+    return c1 == c2;
+  }
 
 }
