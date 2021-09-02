@@ -17,7 +17,6 @@ export class EquiposService {
   }
 
   getPagination(params: string){
-    console.log(params);
     return this.http.get<Array<Equipo>>(`${environment.api.teams}${params}`);
   }
 
