@@ -4,7 +4,8 @@ import {OPERATIONS} from '../../../../core/enum';
 import {AlertController, ModalController, ToastController} from '@ionic/angular';
 import {SharedService} from '../../../../core/services/shared.service';
 import {EquiposService} from '../../../../core/services/equipos.service';
-import {FormularioComponent} from "../formulario/formulario.component";
+import {FormularioComponent} from '../formulario/formulario.component';
+import {DetalleEquipoComponent} from '../detalle/detalle.component';
 
 @Component({
   selector: 'app-lista',
@@ -86,6 +87,16 @@ export class ListaComponent implements OnInit {
       duration: 2000
     });
     await toast.present();
+  }
+
+  async detalleEquipo(equipo){
+    const modal = await this.modalController.create({
+      component: DetalleEquipoComponent,
+      componentProps: {
+        data: equipo
+      }
+    });
+    return await modal.present();
   }
 
 }

@@ -35,5 +35,4 @@ export class LigaPage implements OnInit {
     this.ligas = this.ligas.filter( (liga) => liga.nombre.indexOf(q) > -1);
   }
 
-
 }

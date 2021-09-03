@@ -7,7 +7,7 @@ import { DetalleComponent } from './components/detalle/detalle.component';
 @NgModule({
   declarations: [
     ListaComponent,
-    DetalleComponent
+    DetalleComponent,
   ],
   exports: [
     ListaComponent,

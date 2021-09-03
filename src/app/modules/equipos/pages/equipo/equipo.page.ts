@@ -5,7 +5,6 @@ import {Equipo} from '../../../../shared/model/Equipo';
 import {Liga} from '../../../../shared/model/Liga';
 import {ModalController} from '@ionic/angular';
 import {FormularioComponent} from '../../components/formulario/formulario.component';
-import {OPERATIONS} from '../../../../core/enum';
 import {Subscription} from 'rxjs';
 import {SharedService} from '../../../../core/services/shared.service';
 

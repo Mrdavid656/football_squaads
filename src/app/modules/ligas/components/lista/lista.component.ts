@@ -25,11 +25,6 @@ export class ListaComponent implements OnInit {
         data: liga
       }
     });
-    modal.onDidDismiss().then(res => {
-      if(res.data.data){
-        // this.cargarDatosIniciales();
-      }
-    });
     return await modal.present();
   }
 }

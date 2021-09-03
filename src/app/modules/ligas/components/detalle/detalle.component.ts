@@ -3,6 +3,7 @@ import {ModalController} from '@ionic/angular';
 import {Liga} from '../../../../shared/model/Liga';
 import {EquiposService} from '../../../../core/services/equipos.service';
 import { Equipo } from 'src/app/shared/model/Equipo';
+import {DetalleEquipoComponent} from '../../../equipos/components/detalle/detalle.component';
 
 @Component({
   selector: 'app-detalle',
@@ -37,6 +38,16 @@ export class DetalleComponent implements OnInit {
     }, error => {
       console.log(error);
     });
+  }
+
+  async detalleEquipo(equipo){
+    const modal = await this.modalController.create({
+      component: DetalleEquipoComponent,
+      componentProps: {
+        data: equipo
+      }
+    });
+    return await modal.present();
   }
 
 
