@@ -1,0 +1,23 @@
+{
+  "ligas": [
+    {
+      "id": "1",
+      "nombre": "Sierra",
+      "logo": "https://robohash.org/nihilquasiquis.png?size=50x50&set=set1"
+    },
+    {
+      "nombre": "Alfa Juliett",
+      "logo": "https://robohash.org/quisaccusantiumin.png?size=50x50&set=set1",
+      "id": "2"
+    }
+  ],
+  "equipos": [
+    {
+      "nombre": "equipo 3",
+      "logo": "https://robohash.org/aperiamanimiut.png?size=250x250&set=set1",
+      "ligaId": "1",
+      "id": 3
+    }
+  ],
+  "jugadores": []
+}
