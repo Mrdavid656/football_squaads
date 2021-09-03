@@ -32,4 +32,8 @@ export class JugadoresService {
   eliminar(id){
     return this.http.delete(`${environment.api.players}/${id}`);
   }
+
+  getByEquipoId(equipoId){
+    return this.http.get<Array<Jugador>>(`${environment.api.players}?equipoId=${equipoId}`);
+  }
 }

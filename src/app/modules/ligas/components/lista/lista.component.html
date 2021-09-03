@@ -1,5 +1,5 @@
 <ion-list>
-  <ion-item *ngFor="let liga of ligas">
+  <ion-item *ngFor="let liga of ligas" (click)="detalleLiga(liga)">
     <ion-avatar slot="start">
       <img [src]="liga.logo">
     </ion-avatar>

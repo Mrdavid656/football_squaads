@@ -3,8 +3,8 @@ import {Jugador} from '../../../../shared/model/Jugador';
 import {AlertController, ModalController, ToastController} from '@ionic/angular';
 import { JugadoresService } from 'src/app/core/services/jugadores.service';
 import {SharedService} from '../../../../core/services/shared.service';
-import {OPERATIONS} from "../../../../core/enum";
-import {FormularioComponent} from "../formulario/formulario.component";
+import {OPERATIONS} from '../../../../core/enum';
+import {FormularioComponent} from '../formulario/formulario.component';
 
 @Component({
   selector: 'app-lista',

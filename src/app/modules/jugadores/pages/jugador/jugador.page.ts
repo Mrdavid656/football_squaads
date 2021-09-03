@@ -7,14 +7,13 @@ import {ModalController} from '@ionic/angular';
 import {FormularioComponent} from '../../components/formulario/formulario.component';
 import {SharedService} from '../../../../core/services/shared.service';
 import {Subscription} from 'rxjs';
-import {OPERATIONS} from '../../../../core/enum';
 
 @Component({
   selector: 'app-jugador',
   templateUrl: './jugador.page.html',
   styleUrls: ['./jugador.page.scss'],
 })
-export class JugadorPage implements OnInit {
+export class JugadorPage {
 
   url: string;
   itemListData = [];
@@ -40,12 +39,9 @@ export class JugadorPage implements OnInit {
     });
   }
 
-  async ngOnInit() {
-    await this.cargarDatosIniciales();
-  }
-
   async cargarDatosIniciales(){
     this.page_number = 1;
+    this.jugadores = [];
     this.itemListData = [];
     await this.obtenerEquipos();
     await this.obtenerJugadores();
